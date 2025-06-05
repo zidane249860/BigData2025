@@ -4,7 +4,7 @@ from prophet import Prophet
 import plotly.express as px
 
 st.set_page_config(page_title="Stock Price Forecast", layout="centered")
-st.title("📈 Stock Price Forecast (Next 5 Days)")
+st.title("📈 Stock Price Forecast (Next 10 Days)")
 
 # Load your CSV data
 df = pd.read_csv("stocks.csv")
@@ -37,11 +37,11 @@ else:
     company_df = company_df.dropna(subset=['ds', 'y'])
     model.fit(company_df)
 
-    # Predict next 5 days
-    future = model.make_future_dataframe(periods=5)
+    # Predict next 10 days
+    future = model.make_future_dataframe(periods=10)
     forecast = model.predict(future)
 
     # Plot forecast using Plotly
     fig = px.line(forecast, x="ds", y="yhat", labels={"ds": "Date", "yhat": "Predicted Price (Rp)"},
-                  title=f"{selected_company} - 5-Day Forecast")
+                  title=f"{selected_company} - 10-Day Forecast")
     st.plotly_chart(fig, use_container_width=True)
