@@ -38,7 +38,7 @@ else:
     model.fit(company_df)
 
     # Predict next 10 days
-    future = model.make_future_dataframe(periods=10)
+    future = model.make_future_dataframe(periods=10, freq='D')
     forecast = model.predict(future)
 
     # Plot forecast using Plotly
