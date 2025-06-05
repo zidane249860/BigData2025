@@ -34,6 +34,7 @@ if len(company_df) < 10:
 else:
     # Train Prophet model
     model = Prophet()
+    company_df = company_df.dropna(subset=['ds', 'y'])
     model.fit(company_df)
 
     # Predict next 5 days
