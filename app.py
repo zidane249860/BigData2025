@@ -9,15 +9,20 @@ st.title("📈 Stock Price Forecast (Next 10 Days)")
 # Load your CSV data
 df = pd.read_csv("stocks.csv")
 
-# Clean and convert columns
+# Convert Scraped At to datetime
 df["Scraped At"] = pd.to_datetime(df["Scraped At"], errors="coerce")
-df["Price"] = (
-    df["Price"]
-    .str.replace("Rp", "", regex=False)
-    .str.replace(",", "", regex=False)
-    .str.strip()
-    .astype(float)
-)
+
+# Ensure Price is float (skip string cleanup if already clean)
+if df["Price"].dtype == object:
+    df["Price"] = (
+        df["Price"]
+        .str.replace("Rp", "", regex=False)
+        .str.replace(",", "", regex=False)
+        .str.replace(" ", "")  # for non-breaking space
+        .str.strip()
+        .astype(float)
+    )
+
 
 # Dropdown for company selection
 companies = sorted(df["Company"].unique())
