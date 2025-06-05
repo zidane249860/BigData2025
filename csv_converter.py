@@ -11,3 +11,6 @@ df["Price"] = df["Price"].str.replace("Rp", "").str.replace(",", "").str.replace
 
 # Convert timestamp to datetime
 df["Scraped At"] = pd.to_datetime(df["Scraped At"], format="mixed", dayfirst=False, errors="coerce")
+
+# Save cleaned data back to CSV
+df.to_csv("stocks.csv", index=False, encoding="utf-8")
