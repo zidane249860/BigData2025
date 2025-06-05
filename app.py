@@ -28,13 +28,16 @@ company_df = df[df["Company"] == selected_company][["Scraped At", "Price"]].rena
     columns={"Scraped At": "ds", "Price": "y"}
 )
 
+#(Debug) Checking the latest data timestamp
+st.write("Latest date in data:", company_df['ds'].max())
+
 # Check for enough data
 if len(company_df) < 10:
     st.warning("Not enough data to forecast.")
 else:
     # Train Prophet model
     model = Prophet()
-    company_df = company_df.dropna(subset=['ds', 'y'])
+    company_df = company_df.dropna(subset=['ds', 'y']).sort_values("ds")
     model.fit(company_df)
 
     # Predict next 10 days
